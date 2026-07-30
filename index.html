@@ -1,28 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Akshu AI</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body style="font-family:Arial;background:#111;color:white;padding:20px;">
-  <h1>🤖 Akshu AI</h1>
+<script>
+async function send() {
+    const message = document.getElementById("msg").value;
 
-  <input
-    id="msg"
-    placeholder="Ask me anything..."
-    style="width:80%;padding:10px;"
-  >
+    document.getElementById("reply").innerText = "Thinking...";
 
-  <button onclick="send()">Send</button>
+    const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            message: message
+        })
+    });
 
-  <p id="reply"></p>
+    const data = await response.json();
 
-  <script>
-    function send() {
-      let text = document.getElementById("msg").value;
-      document.getElementById("reply").innerText =
-        "You said: " + text + "\n\nReal AI will be connected next.";
-    }
-  </script>
-</body>
-</html>
+    document.getElementById("reply").innerText = data.reply;
+}
+</script>
